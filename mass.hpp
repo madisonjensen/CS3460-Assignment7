@@ -4,6 +4,8 @@
 namespace usu {
 template <typename RatioType, typename StorageType = std::uint64_t> class mass {
 public:
+  using conversion = RatioType;
+
   template <class RetType, class InType>
   friend RetType mass_cast(const InType &in);
   mass() { m_grams = 0; }
@@ -21,22 +23,16 @@ public:
   StorageType getGrams() const { return m_grams; }
 
   template <class InType> bool operator<(const InType &rhs) const {
-    // std::cout << "Comparing " << m_grams << "/" << rhs.getGrams() <<
-    // std::endl;
     if (this->m_grams < rhs.getGrams()) {
-      // std::cout << "Returning true in less than" << std::endl;
       return true;
     }
-    // std::cout << "Returning false in less than" << std::endl;
     return false;
   }
 
   template <class InType> bool operator>(const InType &other) const {
     if (other < *this) {
-      // std::cout << "Returning true in greater than" << std::endl;
       return true;
     }
-    // std::cout << "Returning false in greater than" << std::endl;
     return false;
   }
 
@@ -49,6 +45,19 @@ public:
 
   template <class InType> bool operator!=(const InType &other) const {
     return !(*this == other);
+  }
+
+  template <class InType> bool operator>=(const InType &other) const {
+    if (*this < other) {
+      return false;
+    }
+    return true;
+  }
+  template <class InType> bool operator<=(const InType &other) const {
+    if (*this > other) {
+      return false;
+    }
+    return true;
   }
 
   template <class InType>
@@ -94,5 +103,5 @@ using gram = mass<std::ratio<1, 1>>;
 using kilogram = mass<std::kilo>;
 using ounce = mass<std::ratio<28349523125, 1000000000>>;
 using pound = mass<std::ratio<45359237, 100000>>;
-using ton = mass<std::ratio<907185, 2>>;
+using ton = mass<std::ratio<90718474, 100>>;
 } // namespace usu

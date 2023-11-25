@@ -72,8 +72,7 @@ TEST(Mass_Operator, CanAddOtherMassOfDifferentTypes) {
   EXPECT_EQ(38u, result2.count());
   EXPECT_EQ(4u, mass3.count());
 }
-/*
- */
+
 TEST(Mass_Operator, AdditionAssignment) {
   TestMass mass1(13);
   TestMass mass2(3);
@@ -90,7 +89,7 @@ TEST(Mass_Operator, AdditionAssignment) {
   EXPECT_EQ(8u, mass4.count());
   EXPECT_EQ(14u, mass5.count());
 }
-/*
+
 TEST(Mass_Operator, AdditionAssignmentMultipleMassTypes) {
   TestMass mass1(13);
   SmallMass mass2(6);
@@ -107,7 +106,6 @@ TEST(Mass_Operator, AdditionAssignmentMultipleMassTypes) {
   EXPECT_EQ(40u, mass4.count());
   EXPECT_EQ(10u, mass5.count());
 }
-*/
 
 TEST(Mass_Operator, CanSubtractOtherMass) {
   TestMass mass1(11);
@@ -167,7 +165,7 @@ TEST(Mass_Operator, SubtractionAssignment) {
   EXPECT_EQ(9u, mass4.count());
   EXPECT_EQ(6u, mass5.count());
 }
-/*
+
 TEST(Mass_Operator, SubtractionAssignmentMultipleMassTypes) {
   TestMass mass1(27);
   SmallMass mass2(18);
@@ -184,7 +182,7 @@ TEST(Mass_Operator, SubtractionAssignmentMultipleMassTypes) {
   EXPECT_EQ(6u, mass4.count());
   EXPECT_EQ(2u, mass5.count());
 }
-
+/*
 TEST(Mass_Operator, CanMultiplyScalarMass) {
   TestMass myMass(14);
 
@@ -244,7 +242,7 @@ TEST(Mass_Operator, DivisionAssignment) {
 
   EXPECT_EQ(2u, myMass.count());
 }
-
+*/
 TEST(Mass_Cast, CanDoIdentityCast) {
   usu::mass<std::ratio<5, 1>> mass1(10); // 50 units
   decltype(mass1) result1 = usu::mass_cast<decltype(mass1)>(mass1);
@@ -258,7 +256,7 @@ TEST(Mass_Cast, CanDoIdentityCast) {
   EXPECT_EQ(5u, mass2.count());
   EXPECT_EQ(5u, result2.count());
 }
-*/
+
 TEST(Mass_Cast, CanCastToSmallerUnit) {
   BigMass bigMass(15);
 
@@ -304,7 +302,6 @@ TEST(Mass_Cast, CanCastToLargerUnitWithoutPrecisionLossDifferentStorageTypes) {
   EXPECT_NEAR(3.25, result.count(), kEpsilon);
 }
 
-/*
 TEST(Logical_Operators, EqualityInequality) {
   SmallMass a(1);
   SmallMass b(1);
@@ -356,7 +353,7 @@ TEST(Logical_Operators, GreaterThanGreaterThanEqual) {
   EXPECT_EQ(c >= a, true);
   EXPECT_EQ(a >= d, false);
 }
-
+/*
 TEST(Logical_Operators, SpaceshipStrong) {
   SmallMass a(1);
   SmallMass b(1);
@@ -384,7 +381,6 @@ TEST(Logical_Operators, SpaceshipPartial) {
 }
 */
 
-/*
 TEST(Mass_Unit, CorrectUnitsDefined) {
   EXPECT_EQ(std::micro::num, usu::microgram::conversion::num);
   EXPECT_EQ(std::micro::den, usu::microgram::conversion::den);
@@ -400,7 +396,6 @@ TEST(Mass_Unit, CorrectUnitsDefined) {
   EXPECT_EQ((std::ratio<90718474, 100>::num), usu::ton::conversion::num);
   EXPECT_EQ((std::ratio<90718474, 100>::den), usu::ton::conversion::den);
 }
-
 
 TEST(Mass_Unit, CastToGrams) {
   usu::microgram ug{1000000};
@@ -435,4 +430,3 @@ TEST(Mass_Unit, CastFromGrams) {
               static_cast<double>(usu::mass_cast<usu::ton>(g).count()),
               kEpsilon);
 }
-*/
