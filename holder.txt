@@ -1,0 +1,21 @@
+//#include "Mass.hpp"
+//#include <iostream>
+
+/*
+int main()
+{
+    using namespace usu;
+
+    usu::gram g1(10);
+    usu::kilogram g2(10);
+    //std::cout << "get:" << kg.count() << std::endl;
+    //std::cout << "mg to g cast: " << mass_cast<usu::gram>(kg).count() << std::endl;
+    //std::cout << "mg to kg cast: " << mass_cast<usu::kilogram>(kg).count() << std::endl;
+    //std::cout << "gt: " << ( > g) << std::endl;
+    //std::cout << "lt: "<< (mg < g) << std::end;;
+    std::cout << "add 10g + 10 kg: " << (g1 + g2).count() << std::endl; 
+    //bool retVal = kg == kg;
+    //std::cout << "bool result: " << retVal << std::endl;
+    return 0;
+}
+*/
