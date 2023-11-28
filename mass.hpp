@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <ratio>
 
@@ -8,22 +9,15 @@ public:
 
   template <class RetType, class InType>
   friend RetType mass_cast(const InType &in);
-  mass() { m_grams = 0; }
+  mass() { m_count = 0; }
 
-  explicit mass(StorageType givenNum) {
-    m_grams = (givenNum * 1000000 * RatioType::num) / RatioType::den;
-    // std::cout << "Num/Dem:" << RatioType::num << "/" << RatioType::den <<
-    // std::endl; std::cout << "Setting count: " << m_grams << std::endl;
-  }
+  explicit mass(double givenNum) { m_count = givenNum; }
 
-  StorageType count() const {
-    return (m_grams * RatioType::den) / (RatioType::num * 1000000);
-  }
+  double count() const { return m_count; }
 
-  StorageType getGrams() const { return m_grams; }
-
-  template <class InType> bool operator<(const InType &rhs) const {
-    if (this->m_grams < rhs.getGrams()) {
+  template <class InType> bool operator<(const InType &in) const {
+    auto converted = mass_cast<mass<RatioType, StorageType>>(in);
+    if (this->m_count < converted.m_count) {
       return true;
     }
     return false;
@@ -60,42 +54,90 @@ public:
     return true;
   }
 
-  template <class InType>
-  mass<RatioType, StorageType> operator+(const InType &rhs) const {
+  /*
+    template <class InType> bool operator<=>(const InType &other) const {
+      return *this <=> other;
+    }
+  */
+  // DO SPACESHIP HERE
+  template <class InClass>
+  mass<RatioType, StorageType> operator+(const InClass &in) const {
+    auto converted = mass_cast<mass<RatioType, StorageType>>(in);
     mass<RatioType, StorageType> retVal;
-    retVal.m_grams = this->m_grams + rhs.getGrams();
+    retVal.m_count = this->m_count + converted.m_count;
     return retVal;
   }
 
   template <class InType>
-  mass<RatioType, StorageType> operator-(const InType &rhs) const {
+  mass<RatioType, StorageType> operator-(const InType &in) const {
+    auto converted = mass_cast<mass<RatioType, StorageType>>(in);
     mass<RatioType, StorageType> retVal;
-    retVal.m_grams = this->m_grams - rhs.getGrams();
+    retVal.m_count = this->m_count - converted.m_count;
+    return retVal;
+  }
+
+  mass<RatioType, StorageType> operator*(double scalar) const {
+    mass<RatioType, StorageType> retVal;
+    retVal.m_count = this->m_count * scalar;
+    return retVal;
+  }
+
+  mass<RatioType, StorageType> operator/(double scalar) const {
+    mass<RatioType, StorageType> retVal;
+    retVal.m_count = this->m_count / scalar;
     return retVal;
   }
 
   template <class InType>
-  mass<RatioType, StorageType> &operator+=(const InType &rhs) {
-    this->m_grams += rhs.getGrams();
+  mass<RatioType, StorageType> &operator+=(const InType &in) {
+    auto converted = mass_cast<mass<RatioType, StorageType>>(in);
+    this->m_count += converted.m_count;
     return *this;
   }
 
   template <class InType>
-  mass<RatioType, StorageType> &operator-=(const InType &rhs) {
-    this->m_grams -= rhs.getGrams();
+  mass<RatioType, StorageType> &operator-=(const InType &in) {
+    auto converted = mass_cast<mass<RatioType, StorageType>>(in);
+    this->m_count -= converted.m_count;
     return *this;
   }
 
-private:
-  StorageType m_grams;
+  mass<RatioType, StorageType> operator*=(double scalar) {
+    this->m_count *= scalar;
+    return *this;
+  }
+
+  mass<RatioType, StorageType> operator/=(double scalar) {
+    this->m_count /= scalar;
+    return *this;
+  }
+
+  double m_count;
+  RatioType m_ratio;
 };
 
 template <class RetType, class InType> RetType mass_cast(const InType &in) {
   RetType retVal;
-  auto grams = in.m_grams;
-  std::cout << "Grams in input: " << grams << std::endl;
-  retVal.m_grams = grams;
+  double newCount = in.m_count * in.m_ratio.num * retVal.m_ratio.den;
+  newCount = newCount / (in.m_ratio.den * retVal.m_ratio.num);
+  retVal.m_count = newCount;
   return retVal;
+}
+
+template <class RetType> RetType operator*(double scalar, const RetType &in) {
+  return in * scalar;
+}
+
+template <class RetType> RetType operator/(double scalar, const RetType &in) {
+  return in / scalar;
+}
+
+template <class RetType> RetType operator*=(double scalar, const RetType &in) {
+  return in *= scalar;
+}
+
+template <class RetType> RetType operator/=(double scalar, const RetType &in) {
+  return in /= scalar;
 }
 
 using microgram = mass<std::micro>;

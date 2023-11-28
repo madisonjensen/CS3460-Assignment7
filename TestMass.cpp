@@ -44,7 +44,7 @@ TEST(Mass_Operator, CanAddOtherMass) {
   EXPECT_EQ(11u, result.count());
   EXPECT_EQ(11u, mass1.count());
 }
-//  NOTE: Off by 2 on each of these?
+
 TEST(Mass_Operator, CanAddOtherMassOfDifferentTypes) {
   SmallMass mass1(23);
   BigMass mass2(3);
@@ -182,7 +182,7 @@ TEST(Mass_Operator, SubtractionAssignmentMultipleMassTypes) {
   EXPECT_EQ(6u, mass4.count());
   EXPECT_EQ(2u, mass5.count());
 }
-/*
+
 TEST(Mass_Operator, CanMultiplyScalarMass) {
   TestMass myMass(14);
 
@@ -242,7 +242,7 @@ TEST(Mass_Operator, DivisionAssignment) {
 
   EXPECT_EQ(2u, myMass.count());
 }
-*/
+
 TEST(Mass_Cast, CanDoIdentityCast) {
   usu::mass<std::ratio<5, 1>> mass1(10); // 50 units
   decltype(mass1) result1 = usu::mass_cast<decltype(mass1)>(mass1);
